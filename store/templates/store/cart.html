@@ -1,0 +1,131 @@
+{%extends 'main.html'%}
+{%load static%}
+{%block content%}
+<section class="section-content padding-y bg">
+    <div class="container">
+        <!-- ============================ COMPONENT 1 ================================= -->
+        {% if cart_iteams%}
+        <div class="row">
+
+            <aside class="col-lg-9">
+                <div class="card">
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Product</th>
+                                <th scope="col" width="120">Quantity</th>
+                                <th scope="col" width="120">Price</th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cart_iteam in cart_iteams%}
+                            <form action="" method="post">
+                                {%csrf_token%}
+                            <tr>
+                                <td>
+                                    <figure class="itemside align-items-center">
+                                        <div class="aside"><img src="{{cart_iteam.product.product_img.url}}"
+                                                class="img-sm"></div>
+                                        <figcaption class="info">
+                                            <a href="{%url 'single_product' cart_iteam.product.id %}" class="title text-dark">{{cart_iteam.product.product_name}}</a>
+                                            <p class="text-muted small">{% if cart_iteam.size_var%} 
+                                                <p>Size:
+                                                    {%for size in cart_iteam.size_var.all%}
+                                                    {{size | capfirst}}
+                                                    {%endfor%}
+                                                </p>
+                                                {%endif%}
+                                                {% if cart_iteam.color_var%}
+                                                <p>Color:
+                                                    {% for color in cart_iteam.color_var.all%}
+                                                    {{color | capfirst}}
+                                                    {%endfor%}
+                                                </p>
+                                                {%endif%}
+                                            </p>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td>
+                                    <!-- col.// -->
+                                    
+                                    <div class="col">
+                                        <div class="input-group input-spinner">
+                                            <div class="input-group-prepend">
+                                                
+                                                <a href="{%url 'remove_cart' cart_iteam.id  %}"
+                                                    class="btn btn-light" type="button" id="button-plus"> <i
+                                                        class="fa fa-minus"></i> </a>
+                                                   
+                                            </div>
+                                            <input type="text" class="form-control" value="{{cart_iteam.quantity}}">
+                                            <div class="input-group-append">
+                                                
+                                                <a href="{% url 'increment' cart_iteam.id%}" class="btn btn-light"
+                                                    type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
+                                            </div>
+                                        </div> <!-- input-group.// -->
+                                    </div> <!-- col.// -->
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">&#8377;{{cart_iteam.sub_total}}</var>
+                                        <small class="text-muted"> &#8377;{{cart_iteam.product.price_discount}} each
+                                        </small>
+                                    </div> <!-- price-wrap .// -->
+                                </td>
+                                <td class="text-right">
+                                    <a href="{% url 'delete_cart'  cart_iteam.id%}" class="btn btn-danger">
+                                        Remove</a>
+                                </td>
+                            </tr>
+                            </form> 
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div> <!-- card.// -->
+
+            </aside> <!-- col.// -->
+            <aside class="col-lg-3">
+
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Total price:</dt>
+                            <dd class="text-right">&#8377;{{total}}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Gst:</dt>
+                            <dd class="text-right"> &#8377;{{tax}}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Grand Total:</dt>
+                            <dd class="text-right text-dark b"><strong>&#8377;{{grand_total}}</strong></dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="{% static './images/misc/payments.png'%}" height="26">
+                        </p>
+                        <a href="{%url 'checkout'%}" class="btn btn-primary btn-block"> Checkout </a>
+                        <a href="{%url 'store'%}" class="btn btn-light btn-block">Continue Shopping</a>
+                    </div> <!-- card-body.// -->
+                </div> <!-- card.// -->
+
+            </aside> <!-- col.// -->
+
+
+        </div> <!-- row.// -->
+
+    </div> <!-- container .//  -->
+    {%else%}
+    <div class="text-center">
+        <h4>Your cart is empty</h4>
+        <a href="{%url 'store'%}" class="btn btn-primary">Continue Shopping</a>
+    </div>
+    <!-- ============================ COMPONENT 1 END .// ================================= -->
+    {%endif%}
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{%endblock content%}

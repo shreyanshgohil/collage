@@ -1,0 +1,22 @@
+{%extends 'main.html'%}
+{%block content%}
+<div class="container">
+    <h3>Enter new password</h3>
+    <p>Please enter your new password twice so we can verify you typed it in correctly.</p>
+    <form action="" method="post">
+
+        {%csrf_token%}
+
+        {%for fields in form%}
+        {{fields.label}}
+        {{fields}}
+        <br>
+        {%for error in fields.errors%}
+        <p class="text-danger">{{error}}</p>
+        {%endfor%}
+        {%endfor%}
+        <input type="submit" value="Change my password" class="btn btn-primary">
+
+    </form>
+</div>
+{%endblock content%}

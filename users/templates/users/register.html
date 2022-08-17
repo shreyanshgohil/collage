@@ -1,0 +1,38 @@
+{%extends 'main.html'%}
+{%block content%}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+
+    <!-- ============================ COMPONENT REGISTER   ================================= -->
+    <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+        <article class="card-body">
+            <header class="mb-4">
+                <h4 class="card-title">Sign up</h4>
+            </header>
+            <form action="" method="post">
+
+                {%csrf_token%}
+                {%for fields in form%}
+                <br>
+                {{fields.label}}
+                <br>
+                {%for error in fields.errors%}
+                <p class="text-danger">{{error}}</p>
+                {%endfor%}
+                <br>
+                {{fields}}
+                <br>
+                {%endfor%}
+                <input type="submit" value="Register" class="btn btn-primary">
+            </form>
+
+        </article><!-- card-body.// -->
+    </div> <!-- card .// -->
+    <p class="text-center mt-4">Have an account? <a href="{% url 'login'%}">Log In</a></p>
+    <br><br>
+    <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+
+
+</section>
+
+{%endblock content%}
